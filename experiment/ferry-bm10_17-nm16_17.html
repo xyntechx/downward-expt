@@ -1,0 +1,3902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>run-abs</title>
+<meta name="generator" content="https://txt2tags.org">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+blockquote{margin: 1em 2em; border-left: 2px solid #999;
+  font-style: oblique; padding-left: 1em;}
+blockquote:first-letter{margin: .2em .1em .1em 0; font-size: 160%; font-weight: bold;}
+blockquote:first-line{font-weight: bold;}
+body{font-family: sans-serif;}
+hr{background-color:#000;border:0;color:#000;}
+hr.heavy{height:2px;}
+hr.light{height:1px;}
+img{border:0;display:block;}
+img.right{margin:0 0 0 auto;}
+img.center{border:0;margin:0 auto;}
+table{border-collapse: collapse;}
+table th,table td{padding: 3px 7px 2px 7px;}
+table th{background-color: lightgrey;}
+table.center{margin-left:auto; margin-right:auto;}
+.center{text-align:center;}
+.right{text-align:right;}
+.left{text-align:left;}
+.tableborder,.tableborder td,.tableborder th{border:1px solid #000;}
+.underline{text-decoration:underline;}
+</style>
+<style type="text/css">
+    body {
+        font-family: Ubuntu, Helvetica, Arial, sans-serif;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    table th {
+        text-align: left;
+        padding-top: 5px;
+        padding-bottom: 4px;
+        background-color: #aaa;
+        color: #ffffff;
+        /* Make table headers sticky. */
+        position: sticky;
+        top: 0;
+    }
+</style>
+<script type="text/javascript">
+function toggle_element(element) {
+    if (element.style.display == "none") {
+        element.style.display = "";
+    } else {
+        element.style.display = "none";
+    }
+}
+
+function find_next(element, classname) {
+    element = element.nextSibling;
+    while(element.nodeName != classname)
+        element = element.nextSibling;
+    return element;
+}
+
+function toggle_table(toggle_button) {
+    var table = find_next(toggle_button, "TABLE");
+    toggle_element(table);
+    if (toggle_button.innerHTML == "Show table") {
+        toggle_button.innerHTML = "Hide table";
+    } else {
+        toggle_button.innerHTML = "Show table";
+    }
+}
+
+function show_table(section) {
+    heading = section.children[0];
+    var toggle_button = find_next(heading, "BUTTON");
+    var table = find_next(toggle_button, "TABLE");
+    table.style.display = "";
+    toggle_button.innerHTML = "Hide table";
+}
+
+function show_main_tables() {
+    var names = ["unexplained-errors", "info", "summary"];
+    for (var i = 0; i < names.length; i++) {
+        var section = document.getElementById(names[i]);
+        try {
+            show_table(section);
+        } catch (e) {
+            console.log("No table found for " + names[i]);
+        }
+    }
+
+    // If there is only one table, show it and hide the button.
+    var buttons = document.getElementsByTagName('button');
+    var tables = document.getElementsByTagName('table');
+    if (buttons.length == 1 && tables.length == 1) {
+        tables[0].style.display = "";
+        buttons[0].style.display = "none";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", show_main_tables);
+</script>
+</head>
+<body>
+<header>
+<hgroup>
+<h1>run-abs</h1>
+<h3>2025-04-17</h3>
+</hgroup>
+</header>
+
+
+<div class="body">
+
+<ul>
+<li><strong><a href="#unexplained-errors" onclick="show_table(document.getElementById('unexplained-errors'));">Unexplained Errors</a></strong>
+</li>
+<li><strong><a href="#info" onclick="show_table(document.getElementById('info'));">Info</a></strong>
+</li>
+<li><strong><a href="#summary" onclick="show_table(document.getElementById('summary'));">Summary</a></strong>
+</li>
+<li><strong><a href="#coverage" onclick="show_table(document.getElementById('coverage'));">coverage</a></strong>
+  <ul>
+  <li><a href="#coverage-ferry" onclick="show_table(document.getElementById('coverage-ferry'));">ferry</a>
+  </li>
+  </ul>
+</li>
+<li><strong><a href="#evaluations_per_time" onclick="show_table(document.getElementById('evaluations_per_time'));">evaluations_per_time</a></strong>
+  <ul>
+  <li><a href="#evaluations_per_time-ferry" onclick="show_table(document.getElementById('evaluations_per_time-ferry'));">ferry</a>
+  </li>
+  </ul>
+</li>
+<li><strong><a href="#expansions" onclick="show_table(document.getElementById('expansions'));">expansions</a></strong>
+  <ul>
+  <li><a href="#expansions-ferry" onclick="show_table(document.getElementById('expansions-ferry'));">ferry</a>
+  </li>
+  </ul>
+</li>
+<li><strong><a href="#macro_search_time" onclick="show_table(document.getElementById('macro_search_time'));">macro_search_time</a></strong>
+  <ul>
+  <li><a href="#macro_search_time-ferry" onclick="show_table(document.getElementById('macro_search_time-ferry'));">ferry</a>
+  </li>
+  </ul>
+</li>
+<li><strong><a href="#macro_total_time" onclick="show_table(document.getElementById('macro_total_time'));">macro_total_time</a></strong>
+  <ul>
+  <li><a href="#macro_total_time-ferry" onclick="show_table(document.getElementById('macro_total_time-ferry'));">ferry</a>
+  </li>
+  </ul>
+</li>
+<li><strong><a href="#memory" onclick="show_table(document.getElementById('memory'));">memory</a></strong>
+  <ul>
+  <li><a href="#memory-ferry" onclick="show_table(document.getElementById('memory-ferry'));">ferry</a>
+  </li>
+  </ul>
+</li>
+<li><strong><a href="#solution_search_time" onclick="show_table(document.getElementById('solution_search_time'));">solution_search_time</a></strong>
+  <ul>
+  <li><a href="#solution_search_time-ferry" onclick="show_table(document.getElementById('solution_search_time-ferry'));">ferry</a>
+  </li>
+  </ul>
+</li>
+<li><strong><a href="#solution_total_time" onclick="show_table(document.getElementById('solution_total_time'));">solution_total_time</a></strong>
+  <ul>
+  <li><a href="#solution_total_time-ferry" onclick="show_table(document.getElementById('solution_total_time-ferry'));">ferry</a>
+  </li>
+  </ul>
+</li>
+</ul>
+
+<section~A~>
+<h1></h1>
+<section id="unexplained-errors">
+<h2>unexplained-errors</h2>
+
+<button type="button" class="toggle-table" onclick="toggle_table(this)">Show table</button><p></p>
+<table class="tableborder" style="display:none">
+<tr>
+<th>Unexplained errors</th> <th>algorithm</th> <th>domain</th> <th>problem</th> <th>error</th> <th>planner_wall_clock_time</th> <th>raw_memory</th> <th>node</th> <th>run_dir</th>
+</tr>
+<tr>
+<td rowspan="101">["Found&nbsp;multiple&nbsp;occurences&nbsp;of&nbsp;Peak&nbsp;memory:&nbsp;(.+)&nbsp;KB&nbsp;in&nbsp;logfile.&nbsp;Single-search&nbsp;parser&nbsp;can't&nbsp;be&nbsp;used&nbsp;for&nbsp;anytime&nbsp;planner.",&nbsp;"Found&nbsp;multiple&nbsp;occurences&nbsp;of&nbsp;Dead&nbsp;ends:&nbsp;(<br />d+)&nbsp;state<br />(s<br />)<br />.&nbsp;in&nbsp;logfile.&nbsp;Single-search&nbsp;parser&nbsp;can't&nbsp;be&nbsp;used&nbsp;for&nbsp;anytime&nbsp;planner.",&nbsp;"Found&nbsp;multiple&nbsp;occurences&nbsp;of&nbsp;Evaluated&nbsp;(<br />d+)&nbsp;state<br />(s<br />)<br />.&nbsp;in&nbsp;logfile.&nbsp;Single-search&nbsp;parser&nbsp;can't&nbsp;be&nbsp;used&nbsp;for&nbsp;anytime&nbsp;planner.",&nbsp;"Found&nbsp;multiple&nbsp;occurences&nbsp;of&nbsp;Expanded&nbsp;(<br />d+)&nbsp;state<br />(s<br />)<br />.&nbsp;in&nbsp;logfile.&nbsp;Single-search&nbsp;parser&nbsp;can't&nbsp;be&nbsp;used&nbsp;for&nbsp;anytime&nbsp;planner.",&nbsp;"Found&nbsp;multiple&nbsp;occurences&nbsp;of&nbsp;Generated&nbsp;(<br />d+)&nbsp;state<br />(s<br />)<br />.&nbsp;in&nbsp;logfile.&nbsp;Single-search&nbsp;parser&nbsp;can't&nbsp;be&nbsp;used&nbsp;for&nbsp;anytime&nbsp;planner.",&nbsp;"Found&nbsp;multiple&nbsp;occurences&nbsp;of&nbsp;Reopened&nbsp;(<br />d+)&nbsp;state<br />(s<br />)<br />.&nbsp;in&nbsp;logfile.&nbsp;Single-search&nbsp;parser&nbsp;can't&nbsp;be&nbsp;used&nbsp;for&nbsp;anytime&nbsp;planner."]</td>
+<td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem000.sas</td> <td>?</td> <td>?</td> <td>112368</td> <td>?</td> <td>runs-01501-01600/01516</td>
+</tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem001.sas</td> <td>?</td> <td>?</td> <td>95392</td> <td>?</td> <td>runs-01501-01600/01517</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem002.sas</td> <td>?</td> <td>?</td> <td>94996</td> <td>?</td> <td>runs-01501-01600/01518</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem003.sas</td> <td>?</td> <td>?</td> <td>95400</td> <td>?</td> <td>runs-01501-01600/01519</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem004.sas</td> <td>?</td> <td>?</td> <td>111060</td> <td>?</td> <td>runs-01501-01600/01520</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem005.sas</td> <td>?</td> <td>?</td> <td>99112</td> <td>?</td> <td>runs-01501-01600/01521</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem006.sas</td> <td>?</td> <td>?</td> <td>98148</td> <td>?</td> <td>runs-01501-01600/01522</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem007.sas</td> <td>?</td> <td>?</td> <td>95240</td> <td>?</td> <td>runs-01501-01600/01523</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem008.sas</td> <td>?</td> <td>?</td> <td>98424</td> <td>?</td> <td>runs-01501-01600/01524</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem009.sas</td> <td>?</td> <td>?</td> <td>98076</td> <td>?</td> <td>runs-01501-01600/01525</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem010.sas</td> <td>?</td> <td>?</td> <td>111172</td> <td>?</td> <td>runs-01501-01600/01526</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem011.sas</td> <td>?</td> <td>?</td> <td>95752</td> <td>?</td> <td>runs-01501-01600/01527</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem012.sas</td> <td>?</td> <td>?</td> <td>110656</td> <td>?</td> <td>runs-01501-01600/01528</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem013.sas</td> <td>?</td> <td>?</td> <td>110680</td> <td>?</td> <td>runs-01501-01600/01529</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem014.sas</td> <td>?</td> <td>?</td> <td>95532</td> <td>?</td> <td>runs-01501-01600/01530</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem015.sas</td> <td>?</td> <td>?</td> <td>98568</td> <td>?</td> <td>runs-01501-01600/01531</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem016.sas</td> <td>?</td> <td>?</td> <td>95752</td> <td>?</td> <td>runs-01501-01600/01532</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem017.sas</td> <td>?</td> <td>?</td> <td>98516</td> <td>?</td> <td>runs-01501-01600/01533</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem018.sas</td> <td>?</td> <td>?</td> <td>95240</td> <td>?</td> <td>runs-01501-01600/01534</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem019.sas</td> <td>?</td> <td>?</td> <td>95744</td> <td>?</td> <td>runs-01501-01600/01535</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem020.sas</td> <td>?</td> <td>?</td> <td>97512</td> <td>?</td> <td>runs-01501-01600/01536</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem021.sas</td> <td>?</td> <td>?</td> <td>110768</td> <td>?</td> <td>runs-01501-01600/01537</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem022.sas</td> <td>?</td> <td>?</td> <td>108988</td> <td>?</td> <td>runs-01501-01600/01538</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem023.sas</td> <td>?</td> <td>?</td> <td>95152</td> <td>?</td> <td>runs-01501-01600/01539</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem024.sas</td> <td>?</td> <td>?</td> <td>111092</td> <td>?</td> <td>runs-01501-01600/01540</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem025.sas</td> <td>?</td> <td>?</td> <td>95524</td> <td>?</td> <td>runs-01501-01600/01541</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem026.sas</td> <td>?</td> <td>?</td> <td>111060</td> <td>?</td> <td>runs-01501-01600/01542</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem027.sas</td> <td>?</td> <td>?</td> <td>99132</td> <td>?</td> <td>runs-01501-01600/01543</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem028.sas</td> <td>?</td> <td>?</td> <td>98028</td> <td>?</td> <td>runs-01501-01600/01544</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem029.sas</td> <td>?</td> <td>?</td> <td>95492</td> <td>?</td> <td>runs-01501-01600/01545</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem030.sas</td> <td>?</td> <td>?</td> <td>95384</td> <td>?</td> <td>runs-01501-01600/01546</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem031.sas</td> <td>?</td> <td>?</td> <td>95240</td> <td>?</td> <td>runs-01501-01600/01547</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem032.sas</td> <td>?</td> <td>?</td> <td>95820</td> <td>?</td> <td>runs-01501-01600/01548</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem033.sas</td> <td>?</td> <td>?</td> <td>95508</td> <td>?</td> <td>runs-01501-01600/01549</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem034.sas</td> <td>?</td> <td>?</td> <td>94996</td> <td>?</td> <td>runs-01501-01600/01550</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem035.sas</td> <td>?</td> <td>?</td> <td>94972</td> <td>?</td> <td>runs-01501-01600/01551</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem036.sas</td> <td>?</td> <td>?</td> <td>99752</td> <td>?</td> <td>runs-01501-01600/01552</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem037.sas</td> <td>?</td> <td>?</td> <td>110456</td> <td>?</td> <td>runs-01501-01600/01553</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem038.sas</td> <td>?</td> <td>?</td> <td>111548</td> <td>?</td> <td>runs-01501-01600/01554</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem039.sas</td> <td>?</td> <td>?</td> <td>100884</td> <td>?</td> <td>runs-01501-01600/01555</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem040.sas</td> <td>?</td> <td>?</td> <td>110364</td> <td>?</td> <td>runs-01501-01600/01556</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem041.sas</td> <td>?</td> <td>?</td> <td>95232</td> <td>?</td> <td>runs-01501-01600/01557</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem042.sas</td> <td>?</td> <td>?</td> <td>98076</td> <td>?</td> <td>runs-01501-01600/01558</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem043.sas</td> <td>?</td> <td>?</td> <td>111320</td> <td>?</td> <td>runs-01501-01600/01559</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem044.sas</td> <td>?</td> <td>?</td> <td>104756</td> <td>?</td> <td>runs-01501-01600/01560</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem045.sas</td> <td>?</td> <td>?</td> <td>95096</td> <td>?</td> <td>runs-01501-01600/01561</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem046.sas</td> <td>?</td> <td>?</td> <td>111332</td> <td>?</td> <td>runs-01501-01600/01562</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem047.sas</td> <td>?</td> <td>?</td> <td>111332</td> <td>?</td> <td>runs-01501-01600/01563</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem048.sas</td> <td>?</td> <td>?</td> <td>105072</td> <td>?</td> <td>runs-01501-01600/01564</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem049.sas</td> <td>?</td> <td>?</td> <td>111196</td> <td>?</td> <td>runs-01501-01600/01565</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem050.sas</td> <td>?</td> <td>?</td> <td>99752</td> <td>?</td> <td>runs-01501-01600/01566</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem051.sas</td> <td>?</td> <td>?</td> <td>111372</td> <td>?</td> <td>runs-01501-01600/01567</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem052.sas</td> <td>?</td> <td>?</td> <td>98608</td> <td>?</td> <td>runs-01501-01600/01568</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem053.sas</td> <td>?</td> <td>?</td> <td>95240</td> <td>?</td> <td>runs-01501-01600/01569</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem054.sas</td> <td>?</td> <td>?</td> <td>95820</td> <td>?</td> <td>runs-01501-01600/01570</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem055.sas</td> <td>?</td> <td>?</td> <td>110980</td> <td>?</td> <td>runs-01501-01600/01571</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem056.sas</td> <td>?</td> <td>?</td> <td>95508</td> <td>?</td> <td>runs-01501-01600/01572</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem057.sas</td> <td>?</td> <td>?</td> <td>110812</td> <td>?</td> <td>runs-01501-01600/01573</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem058.sas</td> <td>?</td> <td>?</td> <td>95248</td> <td>?</td> <td>runs-01501-01600/01574</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem059.sas</td> <td>?</td> <td>?</td> <td>110672</td> <td>?</td> <td>runs-01501-01600/01575</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem060.sas</td> <td>?</td> <td>?</td> <td>99152</td> <td>?</td> <td>runs-01501-01600/01576</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem061.sas</td> <td>?</td> <td>?</td> <td>111080</td> <td>?</td> <td>runs-01501-01600/01577</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem062.sas</td> <td>?</td> <td>?</td> <td>111408</td> <td>?</td> <td>runs-01501-01600/01578</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem063.sas</td> <td>?</td> <td>?</td> <td>95240</td> <td>?</td> <td>runs-01501-01600/01579</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem064.sas</td> <td>?</td> <td>?</td> <td>110980</td> <td>?</td> <td>runs-01501-01600/01580</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem065.sas</td> <td>?</td> <td>?</td> <td>95508</td> <td>?</td> <td>runs-01501-01600/01581</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem066.sas</td> <td>?</td> <td>?</td> <td>99752</td> <td>?</td> <td>runs-01501-01600/01582</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem067.sas</td> <td>?</td> <td>?</td> <td>104876</td> <td>?</td> <td>runs-01501-01600/01583</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem068.sas</td> <td>?</td> <td>?</td> <td>98568</td> <td>?</td> <td>runs-01501-01600/01584</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem069.sas</td> <td>?</td> <td>?</td> <td>98148</td> <td>?</td> <td>runs-01501-01600/01585</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem070.sas</td> <td>?</td> <td>?</td> <td>98352</td> <td>?</td> <td>runs-01501-01600/01586</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem071.sas</td> <td>?</td> <td>?</td> <td>98076</td> <td>?</td> <td>runs-01501-01600/01587</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem072.sas</td> <td>?</td> <td>?</td> <td>99132</td> <td>?</td> <td>runs-01501-01600/01588</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem073.sas</td> <td>?</td> <td>?</td> <td>100072</td> <td>?</td> <td>runs-01501-01600/01589</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem074.sas</td> <td>?</td> <td>?</td> <td>99140</td> <td>?</td> <td>runs-01501-01600/01590</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem075.sas</td> <td>?</td> <td>?</td> <td>99132</td> <td>?</td> <td>runs-01501-01600/01591</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem076.sas</td> <td>?</td> <td>?</td> <td>102516</td> <td>?</td> <td>runs-01501-01600/01592</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem077.sas</td> <td>?</td> <td>?</td> <td>99752</td> <td>?</td> <td>runs-01501-01600/01593</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem078.sas</td> <td>?</td> <td>?</td> <td>97800</td> <td>?</td> <td>runs-01501-01600/01594</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem079.sas</td> <td>?</td> <td>?</td> <td>110656</td> <td>?</td> <td>runs-01501-01600/01595</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem080.sas</td> <td>?</td> <td>?</td> <td>98432</td> <td>?</td> <td>runs-01501-01600/01596</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem081.sas</td> <td>?</td> <td>?</td> <td>95524</td> <td>?</td> <td>runs-01501-01600/01597</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem082.sas</td> <td>?</td> <td>?</td> <td>97800</td> <td>?</td> <td>runs-01501-01600/01598</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem083.sas</td> <td>?</td> <td>?</td> <td>110680</td> <td>?</td> <td>runs-01501-01600/01599</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem084.sas</td> <td>?</td> <td>?</td> <td>99100</td> <td>?</td> <td>runs-01501-01600/01600</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem085.sas</td> <td>?</td> <td>?</td> <td>111084</td> <td>?</td> <td>runs-01601-01700/01601</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem086.sas</td> <td>?</td> <td>?</td> <td>110980</td> <td>?</td> <td>runs-01601-01700/01602</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem087.sas</td> <td>?</td> <td>?</td> <td>111608</td> <td>?</td> <td>runs-01601-01700/01603</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem088.sas</td> <td>?</td> <td>?</td> <td>97020</td> <td>?</td> <td>runs-01601-01700/01604</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem089.sas</td> <td>?</td> <td>?</td> <td>110944</td> <td>?</td> <td>runs-01601-01700/01605</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem090.sas</td> <td>?</td> <td>?</td> <td>95532</td> <td>?</td> <td>runs-01601-01700/01606</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem091.sas</td> <td>?</td> <td>?</td> <td>95240</td> <td>?</td> <td>runs-01601-01700/01607</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem092.sas</td> <td>?</td> <td>?</td> <td>99072</td> <td>?</td> <td>runs-01601-01700/01608</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem093.sas</td> <td>?</td> <td>?</td> <td>111004</td> <td>?</td> <td>runs-01601-01700/01609</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem094.sas</td> <td>?</td> <td>?</td> <td>110456</td> <td>?</td> <td>runs-01601-01700/01610</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem095.sas</td> <td>?</td> <td>?</td> <td>98076</td> <td>?</td> <td>runs-01601-01700/01611</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem096.sas</td> <td>?</td> <td>?</td> <td>95240</td> <td>?</td> <td>runs-01601-01700/01612</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem097.sas</td> <td>?</td> <td>?</td> <td>110932</td> <td>?</td> <td>runs-01601-01700/01613</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem098.sas</td> <td>?</td> <td>?</td> <td>98144</td> <td>?</td> <td>runs-01601-01700/01614</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem099.sas</td> <td>?</td> <td>?</td> <td>99132</td> <td>?</td> <td>runs-01601-01700/01615</td></tr>
+<tr><td>general-macros-Bm131072-Nm131072</td> <td>ferry</td> <td>problem100.sas</td> <td>?</td> <td>?</td> <td>95100</td> <td>?</td> <td>runs-01601-01700/01616</td></tr>
+</table>
+
+</section>
+<section id="info">
+<h2>info</h2>
+
+<button type="button" class="toggle-table" onclick="toggle_table(this)">Show table</button><p></p>
+
+<table class="tableborder" style="display:none">
+<tr>
+<th>algorithm</th>
+<th>local_<wbr>revision</th>
+<th>global_<wbr>revision</th>
+<th>build_<wbr>options</th>
+<th>driver_<wbr>options</th>
+<th>component_<wbr>options</th>
+</tr>
+<tr>
+<td>general-macros-Bm131072-Nm131072</td>
+<td class="right">?</td>
+<td class="right">?</td>
+<td class="right">?</td>
+<td class="right">?</td>
+<td class="right">?</td>
+</tr>
+</table>
+
+<p>
+Used nodes: [&lt;attribute 'node' missing&gt;]
+</p>
+
+</section>
+<section id="summary">
+<h2>summary</h2>
+
+<button type="button" class="toggle-table" onclick="toggle_table(this)">Show table</button><p></p>
+
+<table class="tableborder" style="display:none">
+<tr>
+<th>Summary</th>
+<th>general-macros-Bm131072-Nm131072</th>
+</tr>
+<tr>
+<td><a href="#coverage" onclick="show_table(document.getElementById('coverage'));">coverage - Sum</a></td>
+<td class="right"><span style="color:rgb(127,127,127)">101</span></td>
+</tr>
+<tr>
+<td><a href="#evaluations_per_time" onclick="show_table(document.getElementById('evaluations_per_time'));">evaluations_per_time - Geometric mean</a></td>
+<td class="right"><span style="color:rgb(127,127,127)">1638751.13</span></td>
+</tr>
+<tr>
+<td><a href="#expansions" onclick="show_table(document.getElementById('expansions'));">expansions - Geometric mean</a></td>
+<td class="right"><span style="color:rgb(127,127,127)">131072.00</span></td>
+</tr>
+<tr>
+<td><a href="#macro_search_time" onclick="show_table(document.getElementById('macro_search_time'));">macro_search_time - Sum</a></td>
+<td class="right"><span style="color:rgb(127,127,127)">204.23</span></td>
+</tr>
+<tr>
+<td><a href="#macro_total_time" onclick="show_table(document.getElementById('macro_total_time'));">macro_total_time - Sum</a></td>
+<td class="right"><span style="color:rgb(127,127,127)">204.69</span></td>
+</tr>
+<tr>
+<td><a href="#memory" onclick="show_table(document.getElementById('memory'));">memory - Sum</a></td>
+<td class="right"><span style="color:rgb(127,127,127)">10281364</span></td>
+</tr>
+<tr>
+<td><a href="#solution_search_time" onclick="show_table(document.getElementById('solution_search_time'));">solution_search_time - Sum</a></td>
+<td class="right"><span style="color:rgb(127,127,127)">9.04</span></td>
+</tr>
+<tr>
+<td><a href="#solution_total_time" onclick="show_table(document.getElementById('solution_total_time'));">solution_total_time - Sum</a></td>
+<td class="right"><span style="color:rgb(127,127,127)">47.87</span></td>
+</tr>
+</table>
+
+</section>
+<section id="coverage">
+<h2>coverage</h2>
+
+<button type="button" class="toggle-table" onclick="toggle_table(this)">Show table</button><p></p>
+
+<table class="tableborder" style="display:none">
+<tr>
+<th>coverage</th>
+<th>general-macros-Bm131072-Nm131072</th>
+</tr>
+<tr>
+<td><a href="#coverage-ferry" onclick="show_table(document.getElementById('coverage-ferry'));">ferry</a> (101)</td>
+<td class="right"><span style="color:rgb(127,127,127)">101</span></td>
+</tr>
+<tr>
+<td><strong>Sum (101)</strong></td>
+<td class="right"><span style="color:rgb(127,127,127)">101</span></td>
+</tr>
+</table>
+
+<p>
+The bottom row reports the sum across all domains.
+</p>
+
+<section id="coverage-ferry">
+<h3>ferry</h3>
+
+<button type="button" class="toggle-table" onclick="toggle_table(this)">Show table</button><p></p>
+
+<table class="tableborder" style="display:none">
+<tr>
+<th>coverage</th>
+<th>general-macros-Bm131072-Nm131072</th>
+</tr>
+<tr>
+<td>problem000.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem001.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem002.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem003.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem004.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem005.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem006.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem007.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem008.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem009.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem010.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem011.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem012.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem013.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem014.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem015.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem016.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem017.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem018.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem019.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem020.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem021.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem022.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem023.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem024.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem025.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem026.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem027.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem028.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem029.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem030.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem031.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem032.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem033.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem034.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem035.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem036.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem037.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem038.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem039.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem040.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem041.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem042.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem043.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem044.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem045.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem046.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem047.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem048.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem049.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem050.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem051.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem052.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem053.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem054.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem055.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem056.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem057.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem058.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem059.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem060.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem061.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem062.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem063.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem064.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem065.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem066.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem067.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem068.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem069.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem070.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem071.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem072.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem073.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem074.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem075.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem076.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem077.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem078.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem079.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem080.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem081.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem082.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem083.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem084.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem085.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem086.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem087.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem088.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem089.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem090.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem091.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem092.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem093.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem094.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem095.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem096.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem097.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem098.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem099.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+<tr>
+<td>problem100.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1</span></td>
+</tr>
+</table>
+
+</section>
+</section>
+<section id="evaluations_per_time">
+<h2>evaluations_per_time</h2>
+
+<button type="button" class="toggle-table" onclick="toggle_table(this)">Show table</button><p></p>
+
+<table class="tableborder" style="display:none">
+<tr>
+<th>evaluations_<wbr>per_<wbr>time</th>
+<th>general-macros-Bm131072-Nm131072</th>
+</tr>
+<tr>
+<td><a href="#evaluations_per_time-ferry" onclick="show_table(document.getElementById('evaluations_per_time-ferry'));">ferry</a> (101)</td>
+<td class="right"><span style="color:rgb(127,127,127)">1638751.1</span></td>
+</tr>
+<tr>
+<td><strong>Geometric mean (101)</strong></td>
+<td class="right"><span style="color:rgb(127,127,127)">1638751.1</span></td>
+</tr>
+</table>
+
+<p>
+Only tasks where all algorithms have a value for "evaluations_per_time" are considered. Each table entry gives the geometric mean of "evaluations_per_time" for that domain. The bottom row reports the geometric mean across all domains.
+</p>
+
+<section id="evaluations_per_time-ferry">
+<h3>ferry</h3>
+
+<button type="button" class="toggle-table" onclick="toggle_table(this)">Show table</button><p></p>
+
+<table class="tableborder" style="display:none">
+<tr>
+<th>evaluations_<wbr>per_<wbr>time</th>
+<th>general-macros-Bm131072-Nm131072</th>
+</tr>
+<tr>
+<td>problem000.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1690194.4</span></td>
+</tr>
+<tr>
+<td>problem001.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1670055.9</span></td>
+</tr>
+<tr>
+<td>problem002.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1620298.3</span></td>
+</tr>
+<tr>
+<td>problem003.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1635344.4</span></td>
+</tr>
+<tr>
+<td>problem004.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1708149.3</span></td>
+</tr>
+<tr>
+<td>problem005.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1622765.6</span></td>
+</tr>
+<tr>
+<td>problem006.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1636869.9</span></td>
+</tr>
+<tr>
+<td>problem007.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1678647.5</span></td>
+</tr>
+<tr>
+<td>problem008.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1528879.4</span></td>
+</tr>
+<tr>
+<td>problem009.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1623226.8</span></td>
+</tr>
+<tr>
+<td>problem010.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1676408.7</span></td>
+</tr>
+<tr>
+<td>problem011.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1663948.0</span></td>
+</tr>
+<tr>
+<td>problem012.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1712593.4</span></td>
+</tr>
+<tr>
+<td>problem013.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1696034.0</span></td>
+</tr>
+<tr>
+<td>problem014.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1646662.4</span></td>
+</tr>
+<tr>
+<td>problem015.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1661618.3</span></td>
+</tr>
+<tr>
+<td>problem016.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1595378.9</span></td>
+</tr>
+<tr>
+<td>problem017.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1647645.6</span></td>
+</tr>
+<tr>
+<td>problem018.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1644896.7</span></td>
+</tr>
+<tr>
+<td>problem019.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1607266.2</span></td>
+</tr>
+<tr>
+<td>problem020.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1677051.0</span></td>
+</tr>
+<tr>
+<td>problem021.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1714929.3</span></td>
+</tr>
+<tr>
+<td>problem022.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1679374.7</span></td>
+</tr>
+<tr>
+<td>problem023.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1642073.0</span></td>
+</tr>
+<tr>
+<td>problem024.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1611158.4</span></td>
+</tr>
+<tr>
+<td>problem025.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1660209.5</span></td>
+</tr>
+<tr>
+<td>problem026.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1703563.2</span></td>
+</tr>
+<tr>
+<td>problem027.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1641713.3</span></td>
+</tr>
+<tr>
+<td>problem028.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1639398.1</span></td>
+</tr>
+<tr>
+<td>problem029.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1657889.0</span></td>
+</tr>
+<tr>
+<td>problem030.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1567653.1</span></td>
+</tr>
+<tr>
+<td>problem031.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1611485.8</span></td>
+</tr>
+<tr>
+<td>problem032.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1625717.7</span></td>
+</tr>
+<tr>
+<td>problem033.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1537649.8</span></td>
+</tr>
+<tr>
+<td>problem034.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1616274.5</span></td>
+</tr>
+<tr>
+<td>problem035.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1560582.4</span></td>
+</tr>
+<tr>
+<td>problem036.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1644802.0</span></td>
+</tr>
+<tr>
+<td>problem037.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1691920.0</span></td>
+</tr>
+<tr>
+<td>problem038.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1703526.8</span></td>
+</tr>
+<tr>
+<td>problem039.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1658671.1</span></td>
+</tr>
+<tr>
+<td>problem040.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1621112.3</span></td>
+</tr>
+<tr>
+<td>problem041.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1647355.3</span></td>
+</tr>
+<tr>
+<td>problem042.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1630650.3</span></td>
+</tr>
+<tr>
+<td>problem043.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1632608.1</span></td>
+</tr>
+<tr>
+<td>problem044.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1755276.6</span></td>
+</tr>
+<tr>
+<td>problem045.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1539406.4</span></td>
+</tr>
+<tr>
+<td>problem046.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1689611.6</span></td>
+</tr>
+<tr>
+<td>problem047.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1718818.0</span></td>
+</tr>
+<tr>
+<td>problem048.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1696163.1</span></td>
+</tr>
+<tr>
+<td>problem049.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1684812.4</span></td>
+</tr>
+<tr>
+<td>problem050.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1473795.3</span></td>
+</tr>
+<tr>
+<td>problem051.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1709652.5</span></td>
+</tr>
+<tr>
+<td>problem052.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1622388.6</span></td>
+</tr>
+<tr>
+<td>problem053.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1586490.0</span></td>
+</tr>
+<tr>
+<td>problem054.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1663304.7</span></td>
+</tr>
+<tr>
+<td>problem055.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1562978.0</span></td>
+</tr>
+<tr>
+<td>problem056.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1623005.7</span></td>
+</tr>
+<tr>
+<td>problem057.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1743811.7</span></td>
+</tr>
+<tr>
+<td>problem058.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1655519.6</span></td>
+</tr>
+<tr>
+<td>problem059.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1560220.8</span></td>
+</tr>
+<tr>
+<td>problem060.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1639148.7</span></td>
+</tr>
+<tr>
+<td>problem061.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1711452.4</span></td>
+</tr>
+<tr>
+<td>problem062.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1717439.1</span></td>
+</tr>
+<tr>
+<td>problem063.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1644866.8</span></td>
+</tr>
+<tr>
+<td>problem064.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1695228.8</span></td>
+</tr>
+<tr>
+<td>problem065.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1696690.0</span></td>
+</tr>
+<tr>
+<td>problem066.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1612819.0</span></td>
+</tr>
+<tr>
+<td>problem067.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1715615.2</span></td>
+</tr>
+<tr>
+<td>problem068.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1646406.0</span></td>
+</tr>
+<tr>
+<td>problem069.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1557718.8</span></td>
+</tr>
+<tr>
+<td>problem070.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1590717.4</span></td>
+</tr>
+<tr>
+<td>problem071.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1527347.8</span></td>
+</tr>
+<tr>
+<td>problem072.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1648843.9</span></td>
+</tr>
+<tr>
+<td>problem073.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1648635.6</span></td>
+</tr>
+<tr>
+<td>problem074.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1530235.7</span></td>
+</tr>
+<tr>
+<td>problem075.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1638872.3</span></td>
+</tr>
+<tr>
+<td>problem076.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1692038.4</span></td>
+</tr>
+<tr>
+<td>problem077.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1628992.8</span></td>
+</tr>
+<tr>
+<td>problem078.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1661456.0</span></td>
+</tr>
+<tr>
+<td>problem079.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1695274.1</span></td>
+</tr>
+<tr>
+<td>problem080.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1671827.1</span></td>
+</tr>
+<tr>
+<td>problem081.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1618428.8</span></td>
+</tr>
+<tr>
+<td>problem082.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1611450.2</span></td>
+</tr>
+<tr>
+<td>problem083.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1636470.3</span></td>
+</tr>
+<tr>
+<td>problem084.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1550996.6</span></td>
+</tr>
+<tr>
+<td>problem085.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1548215.8</span></td>
+</tr>
+<tr>
+<td>problem086.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1599758.7</span></td>
+</tr>
+<tr>
+<td>problem087.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1707829.7</span></td>
+</tr>
+<tr>
+<td>problem088.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1663146.7</span></td>
+</tr>
+<tr>
+<td>problem089.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1645641.2</span></td>
+</tr>
+<tr>
+<td>problem090.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1631574.3</span></td>
+</tr>
+<tr>
+<td>problem091.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1587258.0</span></td>
+</tr>
+<tr>
+<td>problem092.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1510932.1</span></td>
+</tr>
+<tr>
+<td>problem093.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1716350.0</span></td>
+</tr>
+<tr>
+<td>problem094.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1676674.4</span></td>
+</tr>
+<tr>
+<td>problem095.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1626698.8</span></td>
+</tr>
+<tr>
+<td>problem096.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1617087.8</span></td>
+</tr>
+<tr>
+<td>problem097.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1674448.9</span></td>
+</tr>
+<tr>
+<td>problem098.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1553997.5</span></td>
+</tr>
+<tr>
+<td>problem099.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1604745.8</span></td>
+</tr>
+<tr>
+<td>problem100.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1625729.0</span></td>
+</tr>
+</table>
+
+</section>
+</section>
+<section id="expansions">
+<h2>expansions</h2>
+
+<button type="button" class="toggle-table" onclick="toggle_table(this)">Show table</button><p></p>
+
+<table class="tableborder" style="display:none">
+<tr>
+<th>expansions</th>
+<th>general-macros-Bm131072-Nm131072</th>
+</tr>
+<tr>
+<td><a href="#expansions-ferry" onclick="show_table(document.getElementById('expansions-ferry'));">ferry</a> (101)</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072.00</span></td>
+</tr>
+<tr>
+<td><strong>Geometric mean (101)</strong></td>
+<td class="right"><span style="color:rgb(127,127,127)">131072.00</span></td>
+</tr>
+</table>
+
+<p>
+Only tasks where all algorithms have a value for "expansions" are considered. Each table entry gives the geometric mean of "expansions" for that domain. The bottom row reports the geometric mean across all domains.
+</p>
+
+<section id="expansions-ferry">
+<h3>ferry</h3>
+
+<button type="button" class="toggle-table" onclick="toggle_table(this)">Show table</button><p></p>
+
+<table class="tableborder" style="display:none">
+<tr>
+<th>expansions</th>
+<th>general-macros-Bm131072-Nm131072</th>
+</tr>
+<tr>
+<td>problem000.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem001.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem002.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem003.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem004.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem005.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem006.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem007.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem008.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem009.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem010.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem011.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem012.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem013.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem014.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem015.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem016.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem017.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem018.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem019.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem020.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem021.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem022.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem023.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem024.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem025.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem026.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem027.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem028.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem029.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem030.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem031.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem032.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem033.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem034.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem035.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem036.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem037.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem038.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem039.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem040.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem041.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem042.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem043.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem044.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem045.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem046.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem047.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem048.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem049.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem050.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem051.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem052.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem053.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem054.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem055.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem056.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem057.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem058.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem059.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem060.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem061.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem062.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem063.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem064.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem065.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem066.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem067.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem068.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem069.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem070.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem071.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem072.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem073.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem074.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem075.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem076.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem077.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem078.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem079.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem080.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem081.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem082.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem083.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem084.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem085.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem086.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem087.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem088.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem089.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem090.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem091.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem092.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem093.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem094.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem095.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem096.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem097.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem098.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem099.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+<tr>
+<td>problem100.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">131072</span></td>
+</tr>
+</table>
+
+</section>
+</section>
+<section id="macro_search_time">
+<h2>macro_search_time</h2>
+
+<button type="button" class="toggle-table" onclick="toggle_table(this)">Show table</button><p></p>
+
+<table class="tableborder" style="display:none">
+<tr>
+<th>macro_<wbr>search_<wbr>time</th>
+<th>general-macros-Bm131072-Nm131072</th>
+</tr>
+<tr>
+<td><a href="#macro_search_time-ferry" onclick="show_table(document.getElementById('macro_search_time-ferry'));">ferry</a> (101)</td>
+<td class="right"><span style="color:rgb(127,127,127)">204.23</span></td>
+</tr>
+<tr>
+<td><strong>Sum (101)</strong></td>
+<td class="right"><span style="color:rgb(127,127,127)">204.23</span></td>
+</tr>
+</table>
+
+<p>
+Only tasks where all algorithms have a value for "macro_search_time" are considered. Each table entry gives the sum of "macro_search_time" for that domain. The bottom row reports the sum across all domains.
+</p>
+
+<section id="macro_search_time-ferry">
+<h3>ferry</h3>
+
+<button type="button" class="toggle-table" onclick="toggle_table(this)">Show table</button><p></p>
+
+<table class="tableborder" style="display:none">
+<tr>
+<th>macro_<wbr>search_<wbr>time</th>
+<th>general-macros-Bm131072-Nm131072</th>
+</tr>
+<tr>
+<td>problem000.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.04</span></td>
+</tr>
+<tr>
+<td>problem001.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.90</span></td>
+</tr>
+<tr>
+<td>problem002.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.89</span></td>
+</tr>
+<tr>
+<td>problem003.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.89</span></td>
+</tr>
+<tr>
+<td>problem004.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.18</span></td>
+</tr>
+<tr>
+<td>problem005.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.96</span></td>
+</tr>
+<tr>
+<td>problem006.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.99</span></td>
+</tr>
+<tr>
+<td>problem007.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.88</span></td>
+</tr>
+<tr>
+<td>problem008.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.10</span></td>
+</tr>
+<tr>
+<td>problem009.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.01</span></td>
+</tr>
+<tr>
+<td>problem010.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.10</span></td>
+</tr>
+<tr>
+<td>problem011.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.97</span></td>
+</tr>
+<tr>
+<td>problem012.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.14</span></td>
+</tr>
+<tr>
+<td>problem013.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.11</span></td>
+</tr>
+<tr>
+<td>problem014.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.90</span></td>
+</tr>
+<tr>
+<td>problem015.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.98</span></td>
+</tr>
+<tr>
+<td>problem016.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.92</span></td>
+</tr>
+<tr>
+<td>problem017.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.02</span></td>
+</tr>
+<tr>
+<td>problem018.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.90</span></td>
+</tr>
+<tr>
+<td>problem019.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.97</span></td>
+</tr>
+<tr>
+<td>problem020.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.93</span></td>
+</tr>
+<tr>
+<td>problem021.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.06</span></td>
+</tr>
+<tr>
+<td>problem022.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.06</span></td>
+</tr>
+<tr>
+<td>problem023.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.90</span></td>
+</tr>
+<tr>
+<td>problem024.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.08</span></td>
+</tr>
+<tr>
+<td>problem025.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.88</span></td>
+</tr>
+<tr>
+<td>problem026.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.07</span></td>
+</tr>
+<tr>
+<td>problem027.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.00</span></td>
+</tr>
+<tr>
+<td>problem028.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.02</span></td>
+</tr>
+<tr>
+<td>problem029.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.89</span></td>
+</tr>
+<tr>
+<td>problem030.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.94</span></td>
+</tr>
+<tr>
+<td>problem031.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.89</span></td>
+</tr>
+<tr>
+<td>problem032.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.94</span></td>
+</tr>
+<tr>
+<td>problem033.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.95</span></td>
+</tr>
+<tr>
+<td>problem034.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.98</span></td>
+</tr>
+<tr>
+<td>problem035.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.92</span></td>
+</tr>
+<tr>
+<td>problem036.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.06</span></td>
+</tr>
+<tr>
+<td>problem037.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.12</span></td>
+</tr>
+<tr>
+<td>problem038.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.11</span></td>
+</tr>
+<tr>
+<td>problem039.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.96</span></td>
+</tr>
+<tr>
+<td>problem040.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.07</span></td>
+</tr>
+<tr>
+<td>problem041.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.93</span></td>
+</tr>
+<tr>
+<td>problem042.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.01</span></td>
+</tr>
+<tr>
+<td>problem043.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.19</span></td>
+</tr>
+<tr>
+<td>problem044.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.08</span></td>
+</tr>
+<tr>
+<td>problem045.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.97</span></td>
+</tr>
+<tr>
+<td>problem046.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.23</span></td>
+</tr>
+<tr>
+<td>problem047.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.09</span></td>
+</tr>
+<tr>
+<td>problem048.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.13</span></td>
+</tr>
+<tr>
+<td>problem049.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.08</span></td>
+</tr>
+<tr>
+<td>problem050.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.18</span></td>
+</tr>
+<tr>
+<td>problem051.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.07</span></td>
+</tr>
+<tr>
+<td>problem052.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.96</span></td>
+</tr>
+<tr>
+<td>problem053.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.02</span></td>
+</tr>
+<tr>
+<td>problem054.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.95</span></td>
+</tr>
+<tr>
+<td>problem055.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.09</span></td>
+</tr>
+<tr>
+<td>problem056.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.93</span></td>
+</tr>
+<tr>
+<td>problem057.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.11</span></td>
+</tr>
+<tr>
+<td>problem058.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.95</span></td>
+</tr>
+<tr>
+<td>problem059.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.28</span></td>
+</tr>
+<tr>
+<td>problem060.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.03</span></td>
+</tr>
+<tr>
+<td>problem061.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.11</span></td>
+</tr>
+<tr>
+<td>problem062.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.05</span></td>
+</tr>
+<tr>
+<td>problem063.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.90</span></td>
+</tr>
+<tr>
+<td>problem064.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.11</span></td>
+</tr>
+<tr>
+<td>problem065.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.92</span></td>
+</tr>
+<tr>
+<td>problem066.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.40</span></td>
+</tr>
+<tr>
+<td>problem067.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.03</span></td>
+</tr>
+<tr>
+<td>problem068.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.99</span></td>
+</tr>
+<tr>
+<td>problem069.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.98</span></td>
+</tr>
+<tr>
+<td>problem070.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.07</span></td>
+</tr>
+<tr>
+<td>problem071.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.97</span></td>
+</tr>
+<tr>
+<td>problem072.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.99</span></td>
+</tr>
+<tr>
+<td>problem073.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.00</span></td>
+</tr>
+<tr>
+<td>problem074.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.97</span></td>
+</tr>
+<tr>
+<td>problem075.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.97</span></td>
+</tr>
+<tr>
+<td>problem076.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.96</span></td>
+</tr>
+<tr>
+<td>problem077.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.02</span></td>
+</tr>
+<tr>
+<td>problem078.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.98</span></td>
+</tr>
+<tr>
+<td>problem079.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.06</span></td>
+</tr>
+<tr>
+<td>problem080.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.00</span></td>
+</tr>
+<tr>
+<td>problem081.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.91</span></td>
+</tr>
+<tr>
+<td>problem082.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.02</span></td>
+</tr>
+<tr>
+<td>problem083.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.08</span></td>
+</tr>
+<tr>
+<td>problem084.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.99</span></td>
+</tr>
+<tr>
+<td>problem085.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.08</span></td>
+</tr>
+<tr>
+<td>problem086.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.17</span></td>
+</tr>
+<tr>
+<td>problem087.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.16</span></td>
+</tr>
+<tr>
+<td>problem088.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.95</span></td>
+</tr>
+<tr>
+<td>problem089.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.10</span></td>
+</tr>
+<tr>
+<td>problem090.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.96</span></td>
+</tr>
+<tr>
+<td>problem091.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.90</span></td>
+</tr>
+<tr>
+<td>problem092.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.08</span></td>
+</tr>
+<tr>
+<td>problem093.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.07</span></td>
+</tr>
+<tr>
+<td>problem094.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.14</span></td>
+</tr>
+<tr>
+<td>problem095.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.99</span></td>
+</tr>
+<tr>
+<td>problem096.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.94</span></td>
+</tr>
+<tr>
+<td>problem097.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.21</span></td>
+</tr>
+<tr>
+<td>problem098.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.99</span></td>
+</tr>
+<tr>
+<td>problem099.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.08</span></td>
+</tr>
+<tr>
+<td>problem100.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.94</span></td>
+</tr>
+</table>
+
+</section>
+</section>
+<section id="macro_total_time">
+<h2>macro_total_time</h2>
+
+<button type="button" class="toggle-table" onclick="toggle_table(this)">Show table</button><p></p>
+
+<table class="tableborder" style="display:none">
+<tr>
+<th>macro_<wbr>total_<wbr>time</th>
+<th>general-macros-Bm131072-Nm131072</th>
+</tr>
+<tr>
+<td><a href="#macro_total_time-ferry" onclick="show_table(document.getElementById('macro_total_time-ferry'));">ferry</a> (101)</td>
+<td class="right"><span style="color:rgb(127,127,127)">204.69</span></td>
+</tr>
+<tr>
+<td><strong>Sum (101)</strong></td>
+<td class="right"><span style="color:rgb(127,127,127)">204.69</span></td>
+</tr>
+</table>
+
+<p>
+Only tasks where all algorithms have a value for "macro_total_time" are considered. Each table entry gives the sum of "macro_total_time" for that domain. The bottom row reports the sum across all domains.
+</p>
+
+<section id="macro_total_time-ferry">
+<h3>ferry</h3>
+
+<button type="button" class="toggle-table" onclick="toggle_table(this)">Show table</button><p></p>
+
+<table class="tableborder" style="display:none">
+<tr>
+<th>macro_<wbr>total_<wbr>time</th>
+<th>general-macros-Bm131072-Nm131072</th>
+</tr>
+<tr>
+<td>problem000.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.05</span></td>
+</tr>
+<tr>
+<td>problem001.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.90</span></td>
+</tr>
+<tr>
+<td>problem002.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.90</span></td>
+</tr>
+<tr>
+<td>problem003.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.90</span></td>
+</tr>
+<tr>
+<td>problem004.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.19</span></td>
+</tr>
+<tr>
+<td>problem005.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.96</span></td>
+</tr>
+<tr>
+<td>problem006.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.99</span></td>
+</tr>
+<tr>
+<td>problem007.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.89</span></td>
+</tr>
+<tr>
+<td>problem008.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.10</span></td>
+</tr>
+<tr>
+<td>problem009.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.01</span></td>
+</tr>
+<tr>
+<td>problem010.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.10</span></td>
+</tr>
+<tr>
+<td>problem011.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.97</span></td>
+</tr>
+<tr>
+<td>problem012.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.15</span></td>
+</tr>
+<tr>
+<td>problem013.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.11</span></td>
+</tr>
+<tr>
+<td>problem014.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.90</span></td>
+</tr>
+<tr>
+<td>problem015.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.98</span></td>
+</tr>
+<tr>
+<td>problem016.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.93</span></td>
+</tr>
+<tr>
+<td>problem017.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.03</span></td>
+</tr>
+<tr>
+<td>problem018.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.91</span></td>
+</tr>
+<tr>
+<td>problem019.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.98</span></td>
+</tr>
+<tr>
+<td>problem020.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.94</span></td>
+</tr>
+<tr>
+<td>problem021.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.06</span></td>
+</tr>
+<tr>
+<td>problem022.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.06</span></td>
+</tr>
+<tr>
+<td>problem023.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.91</span></td>
+</tr>
+<tr>
+<td>problem024.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.08</span></td>
+</tr>
+<tr>
+<td>problem025.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.89</span></td>
+</tr>
+<tr>
+<td>problem026.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.07</span></td>
+</tr>
+<tr>
+<td>problem027.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.00</span></td>
+</tr>
+<tr>
+<td>problem028.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.03</span></td>
+</tr>
+<tr>
+<td>problem029.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.89</span></td>
+</tr>
+<tr>
+<td>problem030.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.95</span></td>
+</tr>
+<tr>
+<td>problem031.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.90</span></td>
+</tr>
+<tr>
+<td>problem032.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.94</span></td>
+</tr>
+<tr>
+<td>problem033.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.96</span></td>
+</tr>
+<tr>
+<td>problem034.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.98</span></td>
+</tr>
+<tr>
+<td>problem035.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.92</span></td>
+</tr>
+<tr>
+<td>problem036.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.06</span></td>
+</tr>
+<tr>
+<td>problem037.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.12</span></td>
+</tr>
+<tr>
+<td>problem038.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.12</span></td>
+</tr>
+<tr>
+<td>problem039.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.96</span></td>
+</tr>
+<tr>
+<td>problem040.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.07</span></td>
+</tr>
+<tr>
+<td>problem041.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.94</span></td>
+</tr>
+<tr>
+<td>problem042.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.01</span></td>
+</tr>
+<tr>
+<td>problem043.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.19</span></td>
+</tr>
+<tr>
+<td>problem044.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.09</span></td>
+</tr>
+<tr>
+<td>problem045.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.97</span></td>
+</tr>
+<tr>
+<td>problem046.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.23</span></td>
+</tr>
+<tr>
+<td>problem047.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.10</span></td>
+</tr>
+<tr>
+<td>problem048.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.14</span></td>
+</tr>
+<tr>
+<td>problem049.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.08</span></td>
+</tr>
+<tr>
+<td>problem050.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.19</span></td>
+</tr>
+<tr>
+<td>problem051.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.08</span></td>
+</tr>
+<tr>
+<td>problem052.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.97</span></td>
+</tr>
+<tr>
+<td>problem053.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.03</span></td>
+</tr>
+<tr>
+<td>problem054.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.96</span></td>
+</tr>
+<tr>
+<td>problem055.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.09</span></td>
+</tr>
+<tr>
+<td>problem056.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.94</span></td>
+</tr>
+<tr>
+<td>problem057.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.12</span></td>
+</tr>
+<tr>
+<td>problem058.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.96</span></td>
+</tr>
+<tr>
+<td>problem059.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.29</span></td>
+</tr>
+<tr>
+<td>problem060.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.03</span></td>
+</tr>
+<tr>
+<td>problem061.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.12</span></td>
+</tr>
+<tr>
+<td>problem062.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.06</span></td>
+</tr>
+<tr>
+<td>problem063.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.90</span></td>
+</tr>
+<tr>
+<td>problem064.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.11</span></td>
+</tr>
+<tr>
+<td>problem065.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.93</span></td>
+</tr>
+<tr>
+<td>problem066.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.41</span></td>
+</tr>
+<tr>
+<td>problem067.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.04</span></td>
+</tr>
+<tr>
+<td>problem068.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.99</span></td>
+</tr>
+<tr>
+<td>problem069.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.98</span></td>
+</tr>
+<tr>
+<td>problem070.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.08</span></td>
+</tr>
+<tr>
+<td>problem071.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.97</span></td>
+</tr>
+<tr>
+<td>problem072.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.99</span></td>
+</tr>
+<tr>
+<td>problem073.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.01</span></td>
+</tr>
+<tr>
+<td>problem074.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.97</span></td>
+</tr>
+<tr>
+<td>problem075.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.98</span></td>
+</tr>
+<tr>
+<td>problem076.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.97</span></td>
+</tr>
+<tr>
+<td>problem077.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.03</span></td>
+</tr>
+<tr>
+<td>problem078.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.98</span></td>
+</tr>
+<tr>
+<td>problem079.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.06</span></td>
+</tr>
+<tr>
+<td>problem080.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.00</span></td>
+</tr>
+<tr>
+<td>problem081.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.92</span></td>
+</tr>
+<tr>
+<td>problem082.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.03</span></td>
+</tr>
+<tr>
+<td>problem083.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.08</span></td>
+</tr>
+<tr>
+<td>problem084.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.99</span></td>
+</tr>
+<tr>
+<td>problem085.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.09</span></td>
+</tr>
+<tr>
+<td>problem086.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.17</span></td>
+</tr>
+<tr>
+<td>problem087.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.16</span></td>
+</tr>
+<tr>
+<td>problem088.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.95</span></td>
+</tr>
+<tr>
+<td>problem089.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.10</span></td>
+</tr>
+<tr>
+<td>problem090.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.96</span></td>
+</tr>
+<tr>
+<td>problem091.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.91</span></td>
+</tr>
+<tr>
+<td>problem092.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.08</span></td>
+</tr>
+<tr>
+<td>problem093.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.07</span></td>
+</tr>
+<tr>
+<td>problem094.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.15</span></td>
+</tr>
+<tr>
+<td>problem095.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.99</span></td>
+</tr>
+<tr>
+<td>problem096.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.94</span></td>
+</tr>
+<tr>
+<td>problem097.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.22</span></td>
+</tr>
+<tr>
+<td>problem098.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.00</span></td>
+</tr>
+<tr>
+<td>problem099.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">2.08</span></td>
+</tr>
+<tr>
+<td>problem100.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">1.95</span></td>
+</tr>
+</table>
+
+</section>
+</section>
+<section id="memory">
+<h2>memory</h2>
+
+<button type="button" class="toggle-table" onclick="toggle_table(this)">Show table</button><p></p>
+
+<table class="tableborder" style="display:none">
+<tr>
+<th>memory</th>
+<th>general-macros-Bm131072-Nm131072</th>
+</tr>
+<tr>
+<td><a href="#memory-ferry" onclick="show_table(document.getElementById('memory-ferry'));">ferry</a> (101)</td>
+<td class="right"><span style="color:rgb(127,127,127)">10281364</span></td>
+</tr>
+<tr>
+<td><strong>Sum (101)</strong></td>
+<td class="right"><span style="color:rgb(127,127,127)">10281364</span></td>
+</tr>
+</table>
+
+<p>
+Only tasks where all algorithms have a value for "memory" are considered. Each table entry gives the sum of "memory" for that domain. The bottom row reports the sum across all domains.
+</p>
+
+<section id="memory-ferry">
+<h3>ferry</h3>
+
+<button type="button" class="toggle-table" onclick="toggle_table(this)">Show table</button><p></p>
+
+<table class="tableborder" style="display:none">
+<tr>
+<th>memory</th>
+<th>general-macros-Bm131072-Nm131072</th>
+</tr>
+<tr>
+<td>problem000.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">112368</span></td>
+</tr>
+<tr>
+<td>problem001.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95392</span></td>
+</tr>
+<tr>
+<td>problem002.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">94996</span></td>
+</tr>
+<tr>
+<td>problem003.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95400</span></td>
+</tr>
+<tr>
+<td>problem004.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">111060</span></td>
+</tr>
+<tr>
+<td>problem005.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">99112</span></td>
+</tr>
+<tr>
+<td>problem006.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">98148</span></td>
+</tr>
+<tr>
+<td>problem007.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95240</span></td>
+</tr>
+<tr>
+<td>problem008.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">98424</span></td>
+</tr>
+<tr>
+<td>problem009.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">98076</span></td>
+</tr>
+<tr>
+<td>problem010.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">111172</span></td>
+</tr>
+<tr>
+<td>problem011.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95752</span></td>
+</tr>
+<tr>
+<td>problem012.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">110656</span></td>
+</tr>
+<tr>
+<td>problem013.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">110680</span></td>
+</tr>
+<tr>
+<td>problem014.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95532</span></td>
+</tr>
+<tr>
+<td>problem015.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">98568</span></td>
+</tr>
+<tr>
+<td>problem016.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95752</span></td>
+</tr>
+<tr>
+<td>problem017.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">98516</span></td>
+</tr>
+<tr>
+<td>problem018.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95240</span></td>
+</tr>
+<tr>
+<td>problem019.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95744</span></td>
+</tr>
+<tr>
+<td>problem020.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">97512</span></td>
+</tr>
+<tr>
+<td>problem021.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">110768</span></td>
+</tr>
+<tr>
+<td>problem022.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">108988</span></td>
+</tr>
+<tr>
+<td>problem023.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95152</span></td>
+</tr>
+<tr>
+<td>problem024.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">111092</span></td>
+</tr>
+<tr>
+<td>problem025.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95524</span></td>
+</tr>
+<tr>
+<td>problem026.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">111060</span></td>
+</tr>
+<tr>
+<td>problem027.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">99132</span></td>
+</tr>
+<tr>
+<td>problem028.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">98028</span></td>
+</tr>
+<tr>
+<td>problem029.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95492</span></td>
+</tr>
+<tr>
+<td>problem030.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95384</span></td>
+</tr>
+<tr>
+<td>problem031.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95240</span></td>
+</tr>
+<tr>
+<td>problem032.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95820</span></td>
+</tr>
+<tr>
+<td>problem033.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95508</span></td>
+</tr>
+<tr>
+<td>problem034.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">94996</span></td>
+</tr>
+<tr>
+<td>problem035.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">94972</span></td>
+</tr>
+<tr>
+<td>problem036.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">99752</span></td>
+</tr>
+<tr>
+<td>problem037.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">110456</span></td>
+</tr>
+<tr>
+<td>problem038.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">111548</span></td>
+</tr>
+<tr>
+<td>problem039.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">100884</span></td>
+</tr>
+<tr>
+<td>problem040.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">110364</span></td>
+</tr>
+<tr>
+<td>problem041.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95232</span></td>
+</tr>
+<tr>
+<td>problem042.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">98076</span></td>
+</tr>
+<tr>
+<td>problem043.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">111320</span></td>
+</tr>
+<tr>
+<td>problem044.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">104756</span></td>
+</tr>
+<tr>
+<td>problem045.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95096</span></td>
+</tr>
+<tr>
+<td>problem046.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">111332</span></td>
+</tr>
+<tr>
+<td>problem047.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">111332</span></td>
+</tr>
+<tr>
+<td>problem048.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">105072</span></td>
+</tr>
+<tr>
+<td>problem049.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">111196</span></td>
+</tr>
+<tr>
+<td>problem050.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">99752</span></td>
+</tr>
+<tr>
+<td>problem051.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">111372</span></td>
+</tr>
+<tr>
+<td>problem052.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">98608</span></td>
+</tr>
+<tr>
+<td>problem053.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95240</span></td>
+</tr>
+<tr>
+<td>problem054.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95820</span></td>
+</tr>
+<tr>
+<td>problem055.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">110980</span></td>
+</tr>
+<tr>
+<td>problem056.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95508</span></td>
+</tr>
+<tr>
+<td>problem057.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">110812</span></td>
+</tr>
+<tr>
+<td>problem058.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95248</span></td>
+</tr>
+<tr>
+<td>problem059.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">110672</span></td>
+</tr>
+<tr>
+<td>problem060.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">99152</span></td>
+</tr>
+<tr>
+<td>problem061.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">111080</span></td>
+</tr>
+<tr>
+<td>problem062.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">111408</span></td>
+</tr>
+<tr>
+<td>problem063.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95240</span></td>
+</tr>
+<tr>
+<td>problem064.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">110980</span></td>
+</tr>
+<tr>
+<td>problem065.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95508</span></td>
+</tr>
+<tr>
+<td>problem066.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">99752</span></td>
+</tr>
+<tr>
+<td>problem067.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">104876</span></td>
+</tr>
+<tr>
+<td>problem068.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">98568</span></td>
+</tr>
+<tr>
+<td>problem069.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">98148</span></td>
+</tr>
+<tr>
+<td>problem070.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">98352</span></td>
+</tr>
+<tr>
+<td>problem071.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">98076</span></td>
+</tr>
+<tr>
+<td>problem072.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">99132</span></td>
+</tr>
+<tr>
+<td>problem073.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">100072</span></td>
+</tr>
+<tr>
+<td>problem074.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">99140</span></td>
+</tr>
+<tr>
+<td>problem075.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">99132</span></td>
+</tr>
+<tr>
+<td>problem076.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">102516</span></td>
+</tr>
+<tr>
+<td>problem077.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">99752</span></td>
+</tr>
+<tr>
+<td>problem078.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">97800</span></td>
+</tr>
+<tr>
+<td>problem079.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">110656</span></td>
+</tr>
+<tr>
+<td>problem080.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">98432</span></td>
+</tr>
+<tr>
+<td>problem081.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95524</span></td>
+</tr>
+<tr>
+<td>problem082.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">97800</span></td>
+</tr>
+<tr>
+<td>problem083.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">110680</span></td>
+</tr>
+<tr>
+<td>problem084.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">99100</span></td>
+</tr>
+<tr>
+<td>problem085.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">111084</span></td>
+</tr>
+<tr>
+<td>problem086.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">110980</span></td>
+</tr>
+<tr>
+<td>problem087.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">111608</span></td>
+</tr>
+<tr>
+<td>problem088.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">97020</span></td>
+</tr>
+<tr>
+<td>problem089.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">110944</span></td>
+</tr>
+<tr>
+<td>problem090.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95532</span></td>
+</tr>
+<tr>
+<td>problem091.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95240</span></td>
+</tr>
+<tr>
+<td>problem092.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">99072</span></td>
+</tr>
+<tr>
+<td>problem093.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">111004</span></td>
+</tr>
+<tr>
+<td>problem094.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">110456</span></td>
+</tr>
+<tr>
+<td>problem095.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">98076</span></td>
+</tr>
+<tr>
+<td>problem096.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95240</span></td>
+</tr>
+<tr>
+<td>problem097.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">110932</span></td>
+</tr>
+<tr>
+<td>problem098.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">98144</span></td>
+</tr>
+<tr>
+<td>problem099.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">99132</span></td>
+</tr>
+<tr>
+<td>problem100.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">95100</span></td>
+</tr>
+</table>
+
+</section>
+</section>
+<section id="solution_search_time">
+<h2>solution_search_time</h2>
+
+<button type="button" class="toggle-table" onclick="toggle_table(this)">Show table</button><p></p>
+
+<table class="tableborder" style="display:none">
+<tr>
+<th>solution_<wbr>search_<wbr>time</th>
+<th>general-macros-Bm131072-Nm131072</th>
+</tr>
+<tr>
+<td><a href="#solution_search_time-ferry" onclick="show_table(document.getElementById('solution_search_time-ferry'));">ferry</a> (101)</td>
+<td class="right"><span style="color:rgb(127,127,127)">9.04</span></td>
+</tr>
+<tr>
+<td><strong>Sum (101)</strong></td>
+<td class="right"><span style="color:rgb(127,127,127)">9.04</span></td>
+</tr>
+</table>
+
+<p>
+Only tasks where all algorithms have a value for "solution_search_time" are considered. Each table entry gives the sum of "solution_search_time" for that domain. The bottom row reports the sum across all domains.
+</p>
+
+<section id="solution_search_time-ferry">
+<h3>ferry</h3>
+
+<button type="button" class="toggle-table" onclick="toggle_table(this)">Show table</button><p></p>
+
+<table class="tableborder" style="display:none">
+<tr>
+<th>solution_<wbr>search_<wbr>time</th>
+<th>general-macros-Bm131072-Nm131072</th>
+</tr>
+<tr>
+<td>problem000.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.11</span></td>
+</tr>
+<tr>
+<td>problem001.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem002.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem003.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem004.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem005.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem006.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem007.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem008.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.09</span></td>
+</tr>
+<tr>
+<td>problem009.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem010.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem011.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem012.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem013.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem014.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem015.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem016.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem017.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem018.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem019.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem020.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem021.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem022.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem023.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem024.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem025.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem026.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.11</span></td>
+</tr>
+<tr>
+<td>problem027.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem028.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem029.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem030.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem031.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem032.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem033.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem034.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem035.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem036.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem037.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem038.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem039.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.11</span></td>
+</tr>
+<tr>
+<td>problem040.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.11</span></td>
+</tr>
+<tr>
+<td>problem041.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem042.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem043.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.11</span></td>
+</tr>
+<tr>
+<td>problem044.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.12</span></td>
+</tr>
+<tr>
+<td>problem045.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem046.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem047.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem048.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem049.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem050.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.09</span></td>
+</tr>
+<tr>
+<td>problem051.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem052.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem053.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem054.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem055.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.11</span></td>
+</tr>
+<tr>
+<td>problem056.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem057.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.12</span></td>
+</tr>
+<tr>
+<td>problem058.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem059.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.11</span></td>
+</tr>
+<tr>
+<td>problem060.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem061.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem062.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem063.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem064.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem065.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem066.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem067.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem068.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem069.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem070.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem071.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.09</span></td>
+</tr>
+<tr>
+<td>problem072.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem073.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem074.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.09</span></td>
+</tr>
+<tr>
+<td>problem075.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem076.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem077.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem078.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem079.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem080.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem081.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem082.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem083.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.11</span></td>
+</tr>
+<tr>
+<td>problem084.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem085.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.11</span></td>
+</tr>
+<tr>
+<td>problem086.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.11</span></td>
+</tr>
+<tr>
+<td>problem087.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem088.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem089.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem090.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem091.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem092.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.09</span></td>
+</tr>
+<tr>
+<td>problem093.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem094.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem095.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem096.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem097.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.10</span></td>
+</tr>
+<tr>
+<td>problem098.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem099.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+<tr>
+<td>problem100.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.08</span></td>
+</tr>
+</table>
+
+</section>
+</section>
+<section id="solution_total_time">
+<h2>solution_total_time</h2>
+
+<button type="button" class="toggle-table" onclick="toggle_table(this)">Show table</button><p></p>
+
+<table class="tableborder" style="display:none">
+<tr>
+<th>solution_<wbr>total_<wbr>time</th>
+<th>general-macros-Bm131072-Nm131072</th>
+</tr>
+<tr>
+<td><a href="#solution_total_time-ferry" onclick="show_table(document.getElementById('solution_total_time-ferry'));">ferry</a> (101)</td>
+<td class="right"><span style="color:rgb(127,127,127)">47.87</span></td>
+</tr>
+<tr>
+<td><strong>Sum (101)</strong></td>
+<td class="right"><span style="color:rgb(127,127,127)">47.87</span></td>
+</tr>
+</table>
+
+<p>
+Only tasks where all algorithms have a value for "solution_total_time" are considered. Each table entry gives the sum of "solution_total_time" for that domain. The bottom row reports the sum across all domains.
+</p>
+
+<section id="solution_total_time-ferry">
+<h3>ferry</h3>
+
+<button type="button" class="toggle-table" onclick="toggle_table(this)">Show table</button><p></p>
+
+<table class="tableborder" style="display:none">
+<tr>
+<th>solution_<wbr>total_<wbr>time</th>
+<th>general-macros-Bm131072-Nm131072</th>
+</tr>
+<tr>
+<td>problem000.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem001.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem002.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem003.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem004.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.48</span></td>
+</tr>
+<tr>
+<td>problem005.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem006.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem007.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.45</span></td>
+</tr>
+<tr>
+<td>problem008.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.51</span></td>
+</tr>
+<tr>
+<td>problem009.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem010.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.49</span></td>
+</tr>
+<tr>
+<td>problem011.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem012.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem013.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.48</span></td>
+</tr>
+<tr>
+<td>problem014.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.45</span></td>
+</tr>
+<tr>
+<td>problem015.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem016.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem017.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem018.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem019.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem020.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem021.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.48</span></td>
+</tr>
+<tr>
+<td>problem022.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem023.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem024.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem025.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem026.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem027.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem028.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.45</span></td>
+</tr>
+<tr>
+<td>problem029.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem030.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.48</span></td>
+</tr>
+<tr>
+<td>problem031.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem032.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.48</span></td>
+</tr>
+<tr>
+<td>problem033.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem034.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem035.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem036.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.49</span></td>
+</tr>
+<tr>
+<td>problem037.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem038.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem039.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.51</span></td>
+</tr>
+<tr>
+<td>problem040.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.49</span></td>
+</tr>
+<tr>
+<td>problem041.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem042.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem043.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem044.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.49</span></td>
+</tr>
+<tr>
+<td>problem045.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.49</span></td>
+</tr>
+<tr>
+<td>problem046.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.51</span></td>
+</tr>
+<tr>
+<td>problem047.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem048.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem049.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem050.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.50</span></td>
+</tr>
+<tr>
+<td>problem051.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.48</span></td>
+</tr>
+<tr>
+<td>problem052.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem053.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem054.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem055.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.53</span></td>
+</tr>
+<tr>
+<td>problem056.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem057.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.49</span></td>
+</tr>
+<tr>
+<td>problem058.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem059.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.52</span></td>
+</tr>
+<tr>
+<td>problem060.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem061.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.48</span></td>
+</tr>
+<tr>
+<td>problem062.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem063.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem064.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem065.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem066.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem067.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem068.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem069.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.48</span></td>
+</tr>
+<tr>
+<td>problem070.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.51</span></td>
+</tr>
+<tr>
+<td>problem071.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.49</span></td>
+</tr>
+<tr>
+<td>problem072.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem073.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem074.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.50</span></td>
+</tr>
+<tr>
+<td>problem075.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem076.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem077.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem078.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem079.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem080.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem081.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.48</span></td>
+</tr>
+<tr>
+<td>problem082.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem083.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.48</span></td>
+</tr>
+<tr>
+<td>problem084.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem085.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.49</span></td>
+</tr>
+<tr>
+<td>problem086.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.48</span></td>
+</tr>
+<tr>
+<td>problem087.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem088.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem089.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.48</span></td>
+</tr>
+<tr>
+<td>problem090.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem091.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.48</span></td>
+</tr>
+<tr>
+<td>problem092.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.53</span></td>
+</tr>
+<tr>
+<td>problem093.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem094.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.48</span></td>
+</tr>
+<tr>
+<td>problem095.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem096.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem097.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.51</span></td>
+</tr>
+<tr>
+<td>problem098.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.46</span></td>
+</tr>
+<tr>
+<td>problem099.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.47</span></td>
+</tr>
+<tr>
+<td>problem100.sas</td>
+<td class="right"><span style="color:rgb(127,127,127)">0.48</span></td>
+</tr>
+</table>
+
+</section>
+</section>
+</section>
+</div>
+</body></html>
